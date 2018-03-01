@@ -23,9 +23,12 @@ This notation can be used for slice operations on primitives like
 String and any object that provides indexed access using `[[Get]]`
 like Array and TypedArray.
 
+The length used for these operations is the `length` property of the
+object.
+
 ```js
-const obj = { 0: 1, 1: 2, 2: 3, 3: 4 }
-obj[1:3]
+const obj = { 0: 1, 1: 2, 2: 3, 3: 4, length: 4 };
+obj[1:3];
 // → [2, 3]
 ```
 
@@ -40,6 +43,9 @@ arr[1:4:2]
 ```
 
 ## Examples
+
+In the following text, 'length of the object' refers to the `length`
+property of the object.
 
 ### Default values
 
