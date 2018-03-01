@@ -305,3 +305,8 @@ arr[::x[0]];
 
 Is the above creating a new array with values `[1, 3]` or is it
 creating a bound method?
+
+### Can the upper bound, lower bound or the step argument be arbitrary Expressions?
+
+Currently the proposal restricts them to be an IdentifierReference or
+DecimalDigits.
