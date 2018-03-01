@@ -148,6 +148,23 @@ arr[::-1];
 // → [4, 3, 2, 1]
 ```
 
+### Out of bounds indices
+
+Both the lower and upper bounds are capped at the length of the object.
+
+```
+const arr = [1, 2, 3, 4];
+
+arr[100:];
+// → []
+
+arr[:100];
+// → [1, 2, 3, 4]
+```
+
+These semantics exactly match the behavior of existing slice
+operations.
+
 ## Prior art
 
 ### Python
