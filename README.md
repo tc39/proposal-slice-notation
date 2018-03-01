@@ -1,4 +1,4 @@
-# slice notation
+# Slice notation
 
 This repository contains a proposal for adding slice notation syntax
 to JavaScript. This is currently at stage 0 of the [TC39
@@ -19,7 +19,7 @@ arr.slice(1, 3);
 // → [2, 3]
 ```
 
-The slice notation can be used for slice operations on primitives like
+This notation can be used for slice operations on primitives like
 String and any object that provides indexed access using `[[Get]]`
 like Array and TypedArray.
 
@@ -39,12 +39,121 @@ arr[1:4:2]
 // → [2, 4]
 ```
 
+## Examples
+
+### Default values
+
+The lower bound, upper bound and the step argument are all optional.
+
+The default value for the lower bound is 0.
+
+```
+const arr = [1,  2, 3, 4];
+arr[:3:1];
+// → [1, 2, 3]
+```
+
+The default value for the upper bound is the length of the object.
+
+```
+const arr = [1,  2, 3, 4];
+arr[1::1];
+// → [2, 3, 4]
+```
+
+The default value for the step argument is 1.
+```
+const arr = [1,  2, 3, 4];
+
+arr[1:];
+// → [2, 3, 4]
+
+arr[:3];
+// → [1, 2, 3]
+
+arr[1::2];
+// → [2, 4]
+
+arr[:3:2];
+// → [1, 3]
+```
+
+Omitting all lower bound and upper bound value, produces a new copy of the object.
+```
+const arr = [1, 2, 3, 4];
+
+arr[:];
+// → [1, 2, 3, 4]
+
+arr[::];
+// → [1, 2, 3, 4]
+```
+
+### Negative indices
+
+If the lower bound is negative, then the start index is computed as
+follows:
+
+```
+start = max(lowerBound + len, 0)
+```
+
+where `len` is the length of the object.
+
+```
+const arr = [1, 2, 3, 4];
+
+arr[-2:];
+// → [3, 4]
+```
+
+In the above example, `start = max((-2 + 4), 0) = max(2, 0) = 2`.
+
+```
+const arr = [1, 2, 3, 4];
+
+arr[-10:];
+// → [1, 2, 3, 4]
+```
+
+In the above example, `start = max((-10 + 4), 0) = max(-6, 0) = 0`.
+
+Similarly, if the upper bound is negative, the end index is computed
+as follows:
+
+```
+end = max(upperBound + len, 0)
+```
+
+```
+const arr = [1, 2, 3, 4];
+
+arr[:-2];
+// → [1, 2]
+
+arr[:-10];
+// → []
+```
+
+These semantics exactly match the behavior of existing slice
+operations.
+
+If the step argument is negative, then the object is traversed in
+reverse.
+
+```
+const arr = [1, 2, 3, 4];
+
+arr[::-1];
+// → [4, 3, 2, 1]
+```
+
 ## Prior art
 
 ### Python
 
-This proposal is highly inspired by the Python syntax and
-unsurprisingly, Python's syntax is the same:
+This proposal is highly inspired by the Python. Unsurprisingly, the
+Python syntax for slice notation is strikingly similar:
 
 ```
 slicing      ::=  primary "[" slice_list "]"
@@ -68,11 +177,31 @@ arr[1:4:2]
 // → [2, 4]
 ```
 
+### CoffeeScript
+
+CoffeeScript provides a Range operator that is inclusive with respect
+to the upper bound.
+
+```coffeescript
+arr = [1, 2, 3, 4];
+arr[1..3];
+// → [2, 3, 4]
+```
+
+CoffeeScript also provides another form the Range operator that does
+not include the upper bound.
+
+```coffeescript
+arr = [1, 2, 3, 4];
+arr[1...3];
+// → [2, 3]
+```
+
 ### Ruby
 
 Ruby seems to have two different ways to get a slice:
 
-* Using a Range object:
+* Using a Range:
 
 ```ruby
 arr = [1, 2, 3, 4];
@@ -80,14 +209,11 @@ arr[1..3];
 // → [2, 3, 4]
 ```
 
-The `1..3` produces a Range object which defines the set of indices to
-be sliced out.
-
-The rest/spread operator in ECMAScript is very similar to the range
-operator, which could potentially cause confusion to developers as
-they could easily forget a `.` leading to a syntax error.
+This is similar to CoffeeScript. The `1..3` produces a Range object
+which defines the set of indices to be sliced out.
 
 * Using the comma operator:
+
 ```ruby
 arr = [1, 2, 3, 4];
 arr[1, 3];
@@ -106,11 +232,40 @@ s[1, 3]
 // → 'b'
 ```
 
+
 ## FAQ
+
+### Why pick the Python syntax over the Ruby/CoffeeScript syntax?
+
+The Python syntax allows us to provide an optional step argument.
+
+Also, the Python syntax which excludes the upper bound index is
+similar to the existing slice methods in JavaScript. Admittedly, this
+is a weak argument as we could use exlusive Range operator (`...`)
+from CoffeeScript.
 
 ### Why does this not use the iterator protocol?
 
-It doesn't make sense to use the iterator protocol because the
-iterator protocol isn't restricted to index lookup. For example, Map
-and Sets have iterators but we shouldn't be able to slice them as they
-don't have indices.
+The iterator protocol because isn't restricted to index lookup, which
+makes it incompatible with this slice notation which works only on
+indices.
+
+For example, Map and Sets have iterators but we shouldn't be able to
+slice them as they don't have indices.
+
+### What about splice?
+
+CoffeeScript allows similar syntax to be used on the LHS of an
+AssignmentExpression leading to splice operation.
+
+```coffeescript
+numbers = [1, 2, 3, 4]
+numbers[2..4] = [7, 8]
+// → [1, 2, 7, 8]
+```
+
+This doesn't work with Strings as they are immutable, but could be
+made to work with any object using a `[Set]]` operation.
+
+This feature is currently omitted to limit the scope of the proposal,
+but can be incorporated in a follow on proposal.
