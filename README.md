@@ -292,3 +292,16 @@ made to work with any object using a `[Set]]` operation.
 
 This feature is currently omitted to limit the scope of the proposal,
 but can be incorporated in a follow on proposal.
+
+### Doesn't the bind operator have similar syntax?
+
+Unfortunately, yes. The ambiguity arrises from this production:
+
+```
+const x = [2];
+const arr = [1, 2, 3, 4];
+arr[::x[0]];
+```
+
+Is the above creating a new array with values `[1, 3]` or is it
+creating a bound method?
