@@ -17,6 +17,14 @@ arr[1:3];
 
 arr.slice(1, 3);
 // → [2, 3]
+
+const str = 'hello world';
+
+str[6:];
+// → 'world'
+
+str.slice(6);
+// → 'world'
 ```
 
 This notation can be used for slice operations on primitives like
@@ -36,10 +44,16 @@ The slice notation extends the slice operations by accepting an
 optional step argument. The step argument is set to 1 if not
 provided.
 
+The step argument is useful for patterns like creating a slice with
+every other element in an array or for reversing an array.
+
 ```js
 const arr = [1, 2, 3, 4];
 arr[1:4:2]
 // → [2, 4]
+
+arr[::-1]
+// → [4, 3, 2, 1]
 ```
 
 ## Examples
