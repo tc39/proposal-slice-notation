@@ -67,7 +67,7 @@ The lower bound, upper bound and the step argument are all optional.
 
 The default value for the lower bound is 0.
 
-```
+```js
 const arr = [1,  2, 3, 4];
 arr[:3:1];
 // → [1, 2, 3]
@@ -75,14 +75,14 @@ arr[:3:1];
 
 The default value for the upper bound is the length of the object.
 
-```
+```js
 const arr = [1,  2, 3, 4];
 arr[1::1];
 // → [2, 3, 4]
 ```
 
 The default value for the step argument is 1.
-```
+```js
 const arr = [1,  2, 3, 4];
 
 arr[1:];
@@ -99,7 +99,7 @@ arr[:3:2];
 ```
 
 Omitting all lower bound and upper bound value, produces a new copy of the object.
-```
+```js
 const arr = [1, 2, 3, 4];
 
 arr[:];
@@ -114,13 +114,13 @@ arr[::];
 If the lower bound is negative, then the start index is computed as
 follows:
 
-```
+```js
 start = max(lowerBound + len, 0)
 ```
 
 where `len` is the length of the object.
 
-```
+```js
 const arr = [1, 2, 3, 4];
 
 arr[-2:];
@@ -129,7 +129,7 @@ arr[-2:];
 
 In the above example, `start = max((-2 + 4), 0) = max(2, 0) = 2`.
 
-```
+```js
 const arr = [1, 2, 3, 4];
 
 arr[-10:];
@@ -141,11 +141,11 @@ In the above example, `start = max((-10 + 4), 0) = max(-6, 0) = 0`.
 Similarly, if the upper bound is negative, the end index is computed
 as follows:
 
-```
+```js
 end = max(upperBound + len, 0)
 ```
 
-```
+```js
 const arr = [1, 2, 3, 4];
 
 arr[:-2];
@@ -161,7 +161,7 @@ operations.
 If the step argument is negative, then the object is traversed in
 reverse.
 
-```
+```js
 const arr = [1, 2, 3, 4];
 
 arr[::-1];
@@ -172,7 +172,7 @@ arr[::-1];
 
 Both the lower and upper bounds are capped at the length of the object.
 
-```
+```js
 const arr = [1, 2, 3, 4];
 
 arr[100:];
@@ -192,7 +192,7 @@ operations.
 This proposal is highly inspired by the Python. Unsurprisingly, the
 Python syntax for slice notation is strikingly similar:
 
-```
+```python
 slicing      ::=  primary "[" slice_list "]"
 slice_list   ::=  slice_item ("," slice_item)* [","]
 slice_item   ::=  expression | proper_slice
@@ -311,7 +311,7 @@ but can be incorporated in a follow on proposal.
 
 Unfortunately, yes. The ambiguity arrises from this production:
 
-```
+```js
 const x = [2];
 const arr = [1, 2, 3, 4];
 arr[::x[0]];
