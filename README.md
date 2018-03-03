@@ -192,7 +192,7 @@ operations.
 
 ### Python
 
-This proposal is highly inspired by the Python. Unsurprisingly, the
+This proposal is highly inspired by Python. Unsurprisingly, the
 Python syntax for slice notation is strikingly similar:
 
 ```python
