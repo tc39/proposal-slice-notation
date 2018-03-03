@@ -68,22 +68,25 @@ The lower bound, upper bound and the step argument are all optional.
 The default value for the lower bound is 0.
 
 ```js
-const arr = [1,  2, 3, 4];
+const arr = [1, 2, 3, 4];
+
 arr[:3:1];
 // → [1, 2, 3]
 ```
 
 The default value for the upper bound is the length of the object.
 
+
 ```js
-const arr = [1,  2, 3, 4];
+const arr = [1, 2, 3, 4];
 arr[1::1];
 // → [2, 3, 4]
 ```
 
 The default value for the step argument is 1.
+
 ```js
-const arr = [1,  2, 3, 4];
+const arr = [1, 2, 3, 4];
 
 arr[1:];
 // → [2, 3, 4]
