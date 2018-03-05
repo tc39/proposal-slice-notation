@@ -219,7 +219,7 @@ arr[1:4:2]
 
 ### CoffeeScript
 
-CoffeeScript provides a Range operator that is inclusive with respect
+CoffeeScript provides a Range operator that is _inclusive_ with respect
 to the upper bound.
 
 ```coffeescript
@@ -228,8 +228,8 @@ arr[1..3];
 // → [2, 3, 4]
 ```
 
-CoffeeScript also provides another form the Range operator that does
-not include the upper bound.
+CoffeeScript also provides another form the Range operator that is _exclusive_ with respect
+to the upper bound.
 
 ```coffeescript
 arr = [1, 2, 3, 4];
