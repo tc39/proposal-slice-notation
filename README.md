@@ -237,6 +237,28 @@ arr[1...3];
 // → [2, 3]
 ```
 
+### Golang
+
+Golang offers [slices](https://gobyexample.com/slices):
+
+```go
+arr := []int{1,2,3,4};
+arr[1:3]
+// → [2, 3]
+```
+
+There is also ability to *not* provide lower or upper bound:
+
+```go
+arr := []int{1,2,3,4};
+arr[1:]
+// → [2, 3, 4]
+
+arr := []int{1,2,3,4};
+arr[:3]
+// → [1, 2, 3]
+```
+
 ### Ruby
 
 Ruby seems to have two different ways to get a slice:
