@@ -281,13 +281,13 @@ The Python syntax allows us to provide an optional step argument.
 
 Also, the Python syntax which excludes the upper bound index is
 similar to the existing slice methods in JavaScript. Admittedly, this
-is a weak argument as we could use exlusive Range operator (`...`)
+is a weak argument as we could use exclusive Range operator (`...`)
 from CoffeeScript.
 
 ### Why does this not use the iterator protocol?
 
-The iterator protocol because isn't restricted to index lookup, which
-makes it incompatible with this slice notation which works only on
+The iterator protocol isn't restricted to index lookup making it
+incompatible with this slice notation which works only on
 indices.
 
 For example, Map and Sets have iterators but we shouldn't be able to
@@ -312,7 +312,7 @@ but can be incorporated in a follow on proposal.
 
 ### Doesn't the bind operator have similar syntax?
 
-Unfortunately, yes. The ambiguity arrises from this production:
+Unfortunately, yes. The ambiguity arises from this production:
 
 ```js
 const x = [2];
