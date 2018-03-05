@@ -237,9 +237,9 @@ arr[1...3];
 // → [2, 3]
 ```
 
-### Golang
+### Go
 
-Golang offers [slices](https://gobyexample.com/slices):
+Go offers [slices](https://gobyexample.com/slices):
 
 ```go
 arr := []int{1,2,3,4};
