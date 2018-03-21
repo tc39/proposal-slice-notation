@@ -10,13 +10,13 @@ The slice notation provides an ergonomic alternative to the various
 slice methods present on Array.prototype, String.prototype, etc.
 
 ```js
-const arr = [1, 2, 3, 4];
+const arr = ['a', 'b', 'c', 'd'];
 
 arr[1:3];
-// → [2, 3]
+// → ['b', 'c']
 
 arr.slice(1, 3);
-// → [2, 3]
+// → ['b', 'c']
 
 const str = 'hello world';
 
@@ -35,9 +35,9 @@ The length used for these operations is the `length` property of the
 object.
 
 ```js
-const obj = { 0: 1, 1: 2, 2: 3, 3: 4, length: 4 };
+const obj = { 0: 'a', 1: 'b', 2: 'c', 3: 'd', length: 4 };
 obj[1:3];
-// → [2, 3]
+// → ['b', 'c']
 ```
 
 The slice notation extends the slice operations by accepting an
@@ -45,26 +45,26 @@ optional step argument. The step argument is set to 1 if not
 provided.
 
 ```js
-const arr = [1, 2, 3, 4];
+const arr = ['a', 'b', 'c', 'd'];
 arr[1:4:2];
-// → [2, 4]
+// → ['b', 'd']
 ```
 
 ## Motivation
 
 ```js
-const arr = [1, 2, 3, 4];
+const arr = ['a', 'b', 'c', 'd'];
 arr.slice(3);
-// → [1, 2, 3] or [4] ?
+// → ['a', 'b', 'c'] or ['d'] ?
 ```
 
 In the above example, it's not immediately clear if the newly created
 array is a slice from the range `0` to `3` or from `3` to `len(arr)`.
 
 ```js
-const arr = [1, 2, 3, 4];
+const arr = ['a', 'b', 'c', 'd'];
 arr.slice(1, 3);
-// → [2, 3] or [2, 3, 4] ?
+// → ['b', 'c'] or ['b', 'c', 'd'] ?
 ```
 
 Adding a second argument is also ambigous since it's not clear if the
@@ -76,12 +76,12 @@ slice as the second argument, but JavaScript's slice methods take the
 upper bound as the second argument.
 
 ```js
-const arr = [1, 2, 3, 4];
+const arr = ['a', 'b', 'c', 'd'];
 arr[3:];
-// → [4]
+// → ['d']
 
 arr[1:3];
-// → [2, 3]
+// → ['b', 'c']
 ```
 
 With the new slice syntax, it's immediately clear that the lower bound
@@ -95,12 +95,12 @@ The step argument is useful for patterns like creating a slice with
 every other element in an array or for reversing an array.
 
 ```js
-const arr = [1, 2, 3, 4];
+const arr = ['a', 'b', 'c', 'd'];
 arr[1:4:2];
-// → [2, 4]
+// → ['b', 'd']
 
 arr[::-1];
-// → [4, 3, 2, 1]
+// → ['d', 'c', 'b', 'a']
 ```
 
 The step argument also makes it really easy to work with matrices.
@@ -129,48 +129,48 @@ The lower bound, upper bound and the step argument are all optional.
 The default value for the lower bound is 0.
 
 ```js
-const arr = [1, 2, 3, 4];
+const arr = ['a', 'b', 'c', 'd'];
 
 arr[:3:1];
-// → [1, 2, 3]
+// → ['a', 'b', 'c']
 ```
 
 The default value for the upper bound is the length of the object.
 
 
 ```js
-const arr = [1, 2, 3, 4];
+const arr = ['a', 'b', 'c', 'd'];
 arr[1::1];
-// → [2, 3, 4]
+// → ['b', 'c', 'd']
 ```
 
 The default value for the step argument is 1.
 
 ```js
-const arr = [1, 2, 3, 4];
+const arr = ['a', 'b', 'c', 'd'];
 
 arr[1:];
-// → [2, 3, 4]
+// → ['b', 'c', 'd']
 
 arr[:3];
-// → [1, 2, 3]
+// → ['a', 'b', 'c']
 
 arr[1::2];
-// → [2, 4]
+// → ['b', 'd']
 
 arr[:3:2];
-// → [1, 3]
+// → ['a', 'c']
 ```
 
 Omitting all lower bound and upper bound value, produces a new copy of the object.
 ```js
-const arr = [1, 2, 3, 4];
+const arr = ['a', 'b', 'c', 'd'];
 
 arr[:];
-// → [1, 2, 3, 4]
+// → ['a', 'b', 'c', 'd']
 
 arr[::];
-// → [1, 2, 3, 4]
+// → ['a', 'b', 'c', 'd']
 ```
 
 ### Negative indices
@@ -185,19 +185,19 @@ start = max(lowerBound + len, 0)
 where `len` is the length of the object.
 
 ```js
-const arr = [1, 2, 3, 4];
+const arr = ['a', 'b', 'c', 'd'];
 
 arr[-2:];
-// → [3, 4]
+// → ['c', 'd']
 ```
 
 In the above example, `start = max((-2 + 4), 0) = max(2, 0) = 2`.
 
 ```js
-const arr = [1, 2, 3, 4];
+const arr = ['a', 'b', 'c', 'd'];
 
 arr[-10:];
-// → [1, 2, 3, 4]
+// → ['a', 'b', 'c', 'd']
 ```
 
 In the above example, `start = max((-10 + 4), 0) = max(-6, 0) = 0`.
@@ -210,10 +210,10 @@ end = max(upperBound + len, 0)
 ```
 
 ```js
-const arr = [1, 2, 3, 4];
+const arr = ['a', 'b', 'c', 'd'];
 
 arr[:-2];
-// → [1, 2]
+// → ['a', 'b']
 
 arr[:-10];
 // → []
@@ -226,10 +226,10 @@ If the step argument is negative, then the object is traversed in
 reverse.
 
 ```js
-const arr = [1, 2, 3, 4];
+const arr = ['a', 'b', 'c', 'd'];
 
 arr[::-1];
-// → [4, 3, 2, 1]
+// → ['d', 'c', 'b', 'a']
 ```
 
 ### Out of bounds indices
@@ -237,13 +237,13 @@ arr[::-1];
 Both the lower and upper bounds are capped at the length of the object.
 
 ```js
-const arr = [1, 2, 3, 4];
+const arr = ['a', 'b', 'c', 'd'];
 
 arr[100:];
 // → []
 
 arr[:100];
-// → [1, 2, 3, 4]
+// → ['a', 'b', 'c', 'd']
 ```
 
 These semantics exactly match the behavior of existing slice
