@@ -1,7 +1,7 @@
 # Slice notation
 
 This repository contains a proposal for adding slice notation syntax
-to JavaScript. This is currently at stage 0 of the [TC39
+to JavaScript. This is currently at stage 1 of the [TC39
 process](https://tc39.github.io/process-document/).
 
 ## Introduction
