@@ -92,15 +92,12 @@ The syntax is also much shorter and more ergonomic than a function
 call.
 
 The step argument is useful for patterns like creating a slice with
-every other element in an array or for reversing an array.
+every other element in an array.
 
 ```js
-const arr = ['a', 'b', 'c', 'd'];
+const arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 arr[1:4:2];
 // → ['b', 'd']
-
-arr[::-1];
-// → ['d', 'c', 'b', 'a']
 ```
 
 The step argument also makes it really easy to work with matrices.
