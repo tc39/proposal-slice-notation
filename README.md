@@ -500,7 +500,7 @@ arr[1:3];
 // → [2, 3]
 ```
 
-This is doing a property lookup for the keys `1`, `2` and `3`.
+This is doing a property lookup for the keys `1` and `2`.
 
 But, shouldn't it do a lookup for the string `'1:3'`?
 
