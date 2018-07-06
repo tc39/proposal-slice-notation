@@ -497,7 +497,7 @@ underlying object. For example,
 const arr = [1, 2, 3, 4];
 
 arr[1:3];
-// → [1, 2, 3]
+// → [2, 3]
 ```
 
 This is doing a property lookup for the keys `1`, `2` and `3`.
