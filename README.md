@@ -67,7 +67,7 @@ arr.slice(1, 3);
 // → ['b', 'c'] or ['b', 'c', 'd'] ?
 ```
 
-Adding a second argument is also ambigous since it's not clear if the
+Adding a second argument is also ambiguous since it's not clear if the
 second argument specifies an upper bound or the length of the new
 slice.
 
@@ -441,7 +441,7 @@ array `arr`. No new array allocation is performed. See [this blog
 post](https://blog.golang.org/go-slices-usage-and-internals) for more
 details.
 
-This doesn't map to any existing contruct in JavaScript and this would
+This doesn't map to any existing construct in JavaScript and this would
 be a step away from how methods work in JavaScript. To make this
 syntax work well within the JavaScript model, such a `view` data
 structure is not included in this proposal.
@@ -511,7 +511,7 @@ arr['1:3'];
 // → undefined
 ```
 
-No. The slice notation makes it analogus with how keyed lookup
+No. The slice notation makes it analogous with how keyed lookup
 works. The key is first evaluated to a value and then the lookup
 happens using this value.
 
