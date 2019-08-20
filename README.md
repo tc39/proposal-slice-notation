@@ -1,13 +1,13 @@
-# Slice notation
+# Slice expression
 
-This repository contains a proposal for adding slice notation syntax
+This repository contains a proposal for adding slice expression syntax
 to JavaScript. This is currently at stage 1 of the [TC39
 process](https://tc39.github.io/process-document/).
 
 ## Introduction
 
-The slice notation provides an ergonomic alternative to the various
-slice methods present on Array.prototype, String.prototype, etc.
+The slice expression `startIndex:endIndex:step` provides an ergonomic alternative for 2 situations:
+1. Inside a [MemberExpression](https://www.ecma-international.org/ecma-262/10.0/index.html#prod-MemberExpression), for the various slice methods present on Array.prototype, String.prototype, etc.
 
 ```js
 const arr = ['a', 'b', 'c', 'd'];
@@ -40,7 +40,7 @@ obj[1:3];
 // → ['b', 'c']
 ```
 
-The slice notation extends the slice operations by accepting an
+The slice expression extends the slice operations by accepting an
 optional step argument. The step argument is set to 1 if not
 provided.
 
@@ -48,6 +48,18 @@ provided.
 const arr = ['a', 'b', 'c', 'd'];
 arr[1:4:2];
 // → ['b', 'd']
+```
+
+2. Else, for the creation of a range, often done using [`Array.from({length: n})`](https://github.com/search?l=JavaScript&q=%22Array.from%28%7Blength%3A%22&type=Code), [lodash.range](https://lodash.com/docs/4.17.11#range), [ramda.range](https://ramdajs.com/docs/#range), etc.
+```js
+[...0:4];
+// → [0, 1, 2, 3]
+
+Array.from({length: 4}, (_, i) => i);
+// → [0, 1, 2, 3]
+
+[...1:4:2];
+// → [1, 3]
 ```
 
 ## Motivation
@@ -254,7 +266,7 @@ operations.
 ### Python
 
 This proposal is highly inspired by Python. Unsurprisingly, the
-Python syntax for slice notation is strikingly similar:
+Python syntax for slice expression is strikingly similar:
 
 ```python
 slicing      ::=  primary "[" slice_list "]"
@@ -390,7 +402,7 @@ const range = [ ...8 ];
 ### Why does this not use the iterator protocol?
 
 The iterator protocol isn't restricted to index lookup making it
-incompatible with this slice notation which works only on
+incompatible with this slice expression which works only on
 indices.
 
 For example, Map and Sets have iterators but we shouldn't be able to
@@ -448,10 +460,10 @@ structure is not included in this proposal.
 
 ### What happens when you slice a String that contains multi-point characters?
 
-The slice notation maintains the behavior of the existing
+The slice expression maintains the behavior of the existing
 `String.prototype.slice` method.
 
-### Should we ban slice notation on strings?
+### Should we ban slice expression on strings?
 
 The `String.prototype.slice` method doesn't work well with unicode
 characters. [This blog
@@ -459,7 +471,7 @@ post](https://mathiasbynens.be/notes/javascript-unicode) by Mathias
 Bynens, explains the problem.
 
 Given that the existing method doesn't work well, banning the slice
-notation for strings _might_ be a good idea to prevent more footguns.
+expression for strings _might_ be a good idea to prevent more footguns.
 
 ### How about combining this with `+` for append?
 
@@ -485,8 +497,13 @@ range = 1..4
 // → 1..4
 ```
 
-A similar construct is already possible with the spread operator as
-shown in an example in an above FAQ.
+A similar construct is possible with the slice expression
+
+```js
+const range = 0:4;
+[...range];
+// → [0, 1, 2, 3]
+```
 
 ### Isn't it confusing that this isn't doing property lookup?
 
@@ -511,7 +528,7 @@ arr['1:3'];
 // → undefined
 ```
 
-No. The slice notation makes it analogous with how keyed lookup
+No. The slice expression makes it analogous with how keyed lookup
 works. The key is first evaluated to a value and then the lookup
 happens using this value.
 
@@ -523,7 +540,7 @@ arr[x] !== arr['x'];
 // → true
 ```
 
-The slice notation works similarly. The notation is first evaluated to
+The slice expression works similarly. The notation is first evaluated to
 a range of values and then each of the values are looked up.
 
 ### There are already many modes where ':' mean different things. Isn't this confusing?
