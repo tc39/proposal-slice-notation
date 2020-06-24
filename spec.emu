@@ -129,7 +129,7 @@
     <emu-grammar> MemberExpression : MemberExpression `[` AssignmentExpression? `:` AssignmentExpression? `]`</emu-grammar>
     <emu-alg>
       1. Let _fromReference_ be the result of evaluating |MemberExpression|.
-      1. Let _fromValue_ be ? GetValue(_fromeference_).
+      1. Let _fromValue_ be ? GetValue(_fromReference_).
       1. If the first |AssignmentExpression| is present, then
             1. Let _startRef_ be the result of evaluating the first |AssignmentExpression|.
             1. Let _start_ be ? GetValue(_startRef_).
@@ -148,7 +148,7 @@
     <emu-grammar> CallExpression : CallExpression `[` AssignmentExpression? `:` AssignmentExpression? `]`</emu-grammar>
     <emu-alg>
       1. Let _fromReference_ be the result of evaluating |CallExpression|.
-      1. Let _fromValue_ be ? GetValue(_fromeference_).
+      1. Let _fromValue_ be ? GetValue(_fromReference_).
       1. If the first |AssignmentExpression| is present, then
             1. Let _startRef_ be the result of evaluating the first |AssignmentExpression|.
             1. Let _start_ be ? GetValue(_startRef_).
