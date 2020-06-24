@@ -94,7 +94,7 @@
       SuperProperty[?Yield, ?Await]
       MetaProperty
       `new` MemberExpression[?Yield, ?Await] Arguments[?Yield, ?Await]
-      <ins>MemberExpression[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await]? `:` Expression[+In, ?Yield, ?Await]? `]` </ins>
+      <ins>MemberExpression[?Yield, ?Await] `[` AssignmentExpression[+In, ?Yield, ?Await]? `:` AssignmentExpression[+In, ?Yield, ?Await]? `]` </ins>
   </emu-grammar>
 
   <emu-grammar>
@@ -106,7 +106,7 @@
       CallExpression[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await] `]`
       CallExpression[?Yield, ?Await] `.` IdentifierName
       CallExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
-      <ins>CallExpression[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await]? `:` Expression[+In, ?Yield, ?Await]? `]`</ins>
+      <ins>CallExpression[?Yield, ?Await] `[` AssignmentExpression[+In, ?Yield, ?Await]? `:` AssignmentExpression[+In, ?Yield, ?Await]? `]`</ins>
   </emu-grammar>
 
   <emu-clause oldids="sec-static-semantics-static-semantics-isvalidsimpleassignmenttarget" id="sec-static-semantics-static-semantics-assignmenttargettype">
@@ -114,10 +114,10 @@
     <emu-see-also-para op="AssignmentTargetType"></emu-see-also-para>
     <emu-grammar>
       MemberExpression :
-        MemberExpression `[` Expression? `:` Expression? `]`
+        MemberExpression `[` AssignmentExpression? `:` AssignmentExpression? `]`
 
       CallExpression :
-        CallExpression `[` Expression? `:` Expression? `]`
+        CallExpression `[` AssignmentExpression? `:` AssignmentExpression? `]`
     </emu-grammar>
     <emu-alg>
       1. Return ~invalid~.
@@ -126,42 +126,42 @@
 
   <emu-clause id="sec-slice-notation-runtime-semantics-evaluation">
     <h1>Runtime Semantics: Evaluation</h1>
-    <emu-grammar> MemberExpression : MemberExpression `[` Expression? `:` Expression? `]`</emu-grammar>
+    <emu-grammar> MemberExpression : MemberExpression `[` AssignmentExpression? `:` AssignmentExpression? `]`</emu-grammar>
     <emu-alg>
       1. Let _fromReference_ be the result of evaluating |MemberExpression|.
       1. Let _fromValue_ be ? GetValue(_fromeference_).
-      1. If the first |Expression| is present, then
-            1. Let _startRef_ be the result of evaluating the first |Expression|.
+      1. If the first |AssignmentExpression| is present, then
+            1. Let _startRef_ be the result of evaluating the first |AssignmentExpression|.
             1. Let _start_ be ? GetValue(_startRef_).
       1. Else,
             1. Let _start_ be 0.
-      1. If the second |Expression| is present, then
-            1. Let _endRef_ be the result of evaluating the second |Expression|.
+      1. If the second |AssignmentExpression| is present, then
+            1. Let _endRef_ be the result of evaluating the second |AssignmentExpression|.
             1. Let _end_ be ? GetValue(_endRef_).
       1. Else,
             1. Let _end_ be *undefined*.
       1. Let _from_ be ? ToObject(_fromValue_).
       1. Let _method_ be ? GetMethod(_from_, @@slice).
-      1. Return ? Call(_method_, _from_, « _start_, _end_ »).
+      1. Return ? Call(_method_, _from_, &laquo; _start_, _end_ &raquo;).
     </emu-alg>
 
-    <emu-grammar> CallExpression : CallExpression `[` Expression? `:` Expression? `]`</emu-grammar>
+    <emu-grammar> CallExpression : CallExpression `[` AssignmentExpression? `:` AssignmentExpression? `]`</emu-grammar>
     <emu-alg>
       1. Let _fromReference_ be the result of evaluating |CallExpression|.
       1. Let _fromValue_ be ? GetValue(_fromeference_).
-      1. If the first |Expression| is present, then
-            1. Let _startRef_ be the result of evaluating the first |Expression|.
+      1. If the first |AssignmentExpression| is present, then
+            1. Let _startRef_ be the result of evaluating the first |AssignmentExpression|.
             1. Let _start_ be ? GetValue(_startRef_).
       1. Else,
             1. Let _start_ be 0.
-      1. If the second |Expression| is present, then
-            1. Let _endRef_ be the result of evaluating the second |Expression|.
+      1. If the second |AssignmentExpression| is present, then
+            1. Let _endRef_ be the result of evaluating the second |AssignmentExpression|.
             1. Let _end_ be ? GetValue(_endRef_).
       1. Else,
             1. Let _end_ be *undefined*.
       1. Let _from_ be ? ToObject(_fromValue_).
       1. Let _method_ be ? GetMethod(_from_, @@slice).
-      1. Return ? Call(_method_, _from_, « _start_, _end_ »).
+      1. Return ? Call(_method_, _from_, &laquo; _start_, _end_ &raquo;).
     </emu-alg>
   </emu-clause>
 </emu-clause>
