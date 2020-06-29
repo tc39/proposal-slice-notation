@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "name": "proposals-slice-notation",
+  "description": "A proposal to add slice notation to ECMAScript",
+  "scripts": {
+    "build": "ecmarkup spec.emu index.html"
+  },
+  "homepage": "https://github.com/tc39/proposal-slice-notationt#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tc39/proposal-slice-notation.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "ecmarkup": "^3.11.5"
+  }
+}

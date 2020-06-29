@@ -1,0 +1,210 @@
+<pre class="metadata">
+  title: Slice notation
+  status: proposal
+  stage: 1
+  location: https://github.com/tc39/proposal-slice-notation
+  copyright: false
+  contributors: Sathya Gunasekaran
+</pre>
+
+<emu-clause id="sec-well-known-symbols">
+  <h1>Well-Known Symbols</h1>
+  <p>Well-known symbols are built-in Symbol values that are explicitly referenced by algorithms of this specification. They are typically used as the keys of properties whose values serve as extension points of a specification algorithm. Unless otherwise specified, well-known symbols values are shared by all realms (<emu-xref href="#sec-code-realms"></emu-xref>).</p>
+  <p>Within this specification a well-known symbol is referred to by using a notation of the form @@name, where &ldquo;name&rdquo; is one of the values listed in <emu-xref href="#table-1"></emu-xref>.</p>
+  <emu-table id="table-1" caption="Well-known Symbols">
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            Specification Name
+          </th>
+          <th>
+            [[Description]]
+          </th>
+          <th>
+            Value and Purpose
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <ins><dfn>@@slice</dfn></ins>
+          </td>
+          <td>
+            <ins>*"Symbol.slice"*</ins>
+          </td>
+          <td>
+            <ins>A method that slices the receiver based on a start and end index.</ins>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </emu-table>
+</emu-clause>
+
+<emu-clause id="sec-properties-of-the-symbol-constructor">
+  <h1>Properties of the Symbol Constructor</h1>
+  <ins class=block><emu-clause id="sec-symbol.slice">
+    <h1>Symbol.slice</h1>
+    <p>The initial value of `Symbol.slice` is the well known symbol @@slice (<emu-xref href="#table-1"></emu-xref>).</p>
+    <p>This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *false* }.</p>
+  </emu-clause></ins>
+</emu-clause>
+
+<emu-clause id="sec-properties-of-the-array-prototype-object">
+  <h1>Properties of the Array Prototype</h1>
+  <emu-clause id="sec-array.prototype-@@slice">
+    <h1>Array.prototype [ @@slice ] (start, end)</h1>
+    <p> The initial value of the @@slice property is the same function object as the initial value of the `Array.prototype.slice` property. </p>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-properties-of-the-%typedarrayprototype%-object">
+  <h1>Properties of the %TypedArray.prototype% Object</h1>
+  <emu-clause id="sec-properties-of-the-%typedarrayprototype%-@@slice">
+    <h1>%TypedArray%.prototype [ @@slice ] (start, end)</h1>
+    <p> The initial value of the @@slice property is the same function object as the initial value of the `%TypedArray%.prototype.slice` property. </p>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-properties-of-the-arraybuffer-prototype-object">
+  <h1>Properties of the ArrayBuffer Prototype Object</h1>
+  <emu-clause id="sec-properties-of-the-arraybuffer-prototype-@@slice">
+    <h1>ArrayBuffer.prototype [ @@slice ] (start, end)</h1>
+    <p> The initial value of the @@slice property is the same function object as the initial value of the `ArrayBuffer.prototype.slice` property. </p>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-properties-of-the-sharedarraybuffer-prototype-object">
+  <h1>Properties of the SharedArrayBuffer Prototype Object</h1>
+  <emu-clause id="sec-properties-of-the-sharedarraybuffer-prototype-@@slice">
+    <h1>SharedArrayBuffer.prototype [ @@slice ] (start, end)</h1>
+    <p> The initial value of the @@slice property is the same function object as the initial value of the `SharedArrayBuffer.prototype.slice` property. </p>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-left-hand-side-expressions">
+  <h1>Left-Hand-Side Expressions</h1>
+  <h2>Syntax</h2>
+  <emu-grammar>
+    MemberExpression[Yield, Await] :
+      PrimaryExpression[?Yield, ?Await]
+      MemberExpression[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await] `]`
+      MemberExpression[?Yield, ?Await] `.` IdentifierName
+      MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await]
+      SuperProperty[?Yield, ?Await]
+      MetaProperty
+      `new` MemberExpression[?Yield, ?Await] Arguments[?Yield, ?Await]
+      <ins>MemberExpression[?Yield, ?Await] `[` AssignmentExpression[+In, ?Yield, ?Await]? `:` AssignmentExpression[+In, ?Yield, ?Await]? `]` </ins>
+  </emu-grammar>
+
+  <emu-grammar>
+    CallExpression[Yield, Await] :
+      CoverCallExpressionAndAsyncArrowHead[?Yield, ?Await] #callcover
+      SuperCall[?Yield, ?Await]
+      ImportCall[?Yield, ?Await]
+      CallExpression[?Yield, ?Await] Arguments[?Yield, ?Await]
+      CallExpression[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await] `]`
+      CallExpression[?Yield, ?Await] `.` IdentifierName
+      CallExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
+      <ins>CallExpression[?Yield, ?Await] `[` AssignmentExpression[+In, ?Yield, ?Await]? `:` AssignmentExpression[+In, ?Yield, ?Await]? `]`</ins>
+  </emu-grammar>
+
+  <emu-grammar>
+    OptionalExpression[Yield, Await] :
+      MemberExpression[?Yield, ?Await] OptionalChain[?Yield, ?Await]
+      CallExpression[?Yield, ?Await] OptionalChain[?Yield, ?Await]
+      OptionalExpression[?Yield, ?Await] OptionalChain[?Yield, ?Await]
+
+    OptionalChain[Yield, Await] :
+      `?.` `[` Expression[+In, ?Yield, ?Await] `]`
+      `?.` IdentifierName
+      `?.` Arguments[?Yield, ?Await]
+      `?.` TemplateLiteral[?Yield, ?Await, +Tagged]
+      <ins>`?.` `[`  AssignmentExpression[+In, ?Yield, ?Await]? `:` AssignmentExpression[+In, ?Yield, ?Await]? `]`</ins>
+      OptionalChain[?Yield, ?Await]  `[` Expression[+In, ?Yield, ?Await] `]`
+      OptionalChain[?Yield, ?Await] `.` IdentifierName
+      OptionalChain[?Yield, ?Await] Arguments[?Yield, ?Await]
+      OptionalChain[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
+      <ins>OptionalChain[?Yield, ?Await] `[`  AssignmentExpression[+In, ?Yield, ?Await]? `:` AssignmentExpression[+In, ?Yield, ?Await]? `]`</ins>
+  </emu-grammar>
+
+  <emu-clause oldids="sec-static-semantics-static-semantics-isvalidsimpleassignmenttarget" id="sec-static-semantics-static-semantics-assignmenttargettype">
+    <h1>Static Semantics: AssignmentTargetType</h1>
+    <emu-see-also-para op="AssignmentTargetType"></emu-see-also-para>
+    <emu-grammar>
+      MemberExpression :
+        MemberExpression `[` AssignmentExpression? `:` AssignmentExpression? `]`
+
+      CallExpression :
+        CallExpression `[` AssignmentExpression? `:` AssignmentExpression? `]`
+    </emu-grammar>
+    <emu-alg>
+      1. Return ~invalid~.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-slice-notation-runtime-semantics-evaluation">
+    <h1>Runtime Semantics</h1>
+    <emu-clause id="sec-evaluate-slice-notation" aoid="EvaluateSliceNotation">
+      <h1>Runtime Semantics: EvaluateSliceNotation ( _baseValue_, _startExpression_, _endExpression_ )</h1>
+      <p>The abstract operation EvaluateSliceNotation takes as arguments a _baseValue_ (an ECMAScript langauge value), _startExpression_ (a Parse Node), and _endExpression_ (a Parse Node). It performs the following steps:</p>
+      <emu-alg>
+        1. If the _startExpression_ is present, then
+          1. Let _startRef_ be the result of evaluating the _startExpression_.
+          1. Let _start_ be ? GetValue(_startRef_).
+        1. Else,
+          1. Let _start_ be 0.
+        1. If the _endExpression_ is present, then
+          1. Let _endRef_ be the result of evaluating the _endExpression_.
+          1. Let _end_ be ? GetValue(_endRef_).
+        1. Else,
+          1. Let _end_ be *undefined*.
+        1. Let _base_ be ? ToObject(_baseValue_).
+        1. Let _method_ be ? GetMethod(_base_, @@slice).
+        1. Return ? Call(_method_, _base_, &laquo; _start_, _end_ &raquo;).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-member-expression-slice-notation">
+      <h1>Runtime Semantics: Evaluation</h1>
+      <emu-grammar> MemberExpression : MemberExpression `[` AssignmentExpression? `:` AssignmentExpression? `]`</emu-grammar>
+      <emu-alg>
+        1. Let _baseReference_ be the result of evaluating |MemberExpression|.
+        1. Let _baseValue_ be ? GetValue(_baseReference_).
+        1. Let _startExpression_ be the first |AssignmentExpression|.
+        1. Let _endExpression_ be the second |AssignmentExpression|.
+        1. Return ? EvaluateSliceNotation(_baseReference_, _startExpression_, _endExpression_).
+      </emu-alg>
+
+      <emu-grammar> CallExpression : CallExpression `[` AssignmentExpression? `:` AssignmentExpression? `]`</emu-grammar>
+      <emu-alg>
+        1. Let _baseReference_ be the result of evaluating |CallExpression|.
+        1. Let _baseValue_ be ? GetValue(_baseReference_).
+        1. Let _startExpression_ be the first |AssignmentExpression|.
+        1. Let _endExpression_ be the second |AssignmentExpression|.
+        1. Return ? EvaluateSliceNotation(_baseValue_, _startExpression_, _endExpression_).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-optional-chaining-chain-evaluation">
+      <h1>Runtime Semantics: ChainEvaluation</h1>
+      <p>With parameters _baseValue_ and _baseReference_.</p>
+      <emu-grammar> OptionalChain: `?.` `[`  AssignmentExpression? `:` AssignmentExpression? `]`</emu-grammar>
+      <emu-alg>
+        1. Let _startExpression_ be the first |AssignmentExpression|.
+        1. Let _endExpression_ be the second |AssignmentExpression|.
+        1. Return ? EvaluateSliceNotation(_baseValue_, _startExpression_, _endExpression_).
+      </emu-alg>
+
+      <emu-grammar> OptionalChain: OptionalChain `[`  AssignmentExpression? `:` AssignmentExpression? `]`</emu-grammar>
+      <emu-alg>
+        1. Let _optionalChain_ be |OptionalChain|.
+        1. Let _newBaseReference_ be ? ChainEvaluation of _optionalChain_ with arguments _baseValue_ and _baseReference_.
+        1. Let _newBaseValue_ be ? GetValue(_newBaseReference_).
+        1. Let _startExpression_ be the first |AssignmentExpression|.
+        1. Let _endExpression_ be the second |AssignmentExpression|.
+        1. Return ? EvaluateSliceNotation(_newBaseValue_, _startExpression_, _endExpression_).
+      </emu-alg>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
