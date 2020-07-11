@@ -7,7 +7,7 @@ process](https://tc39.github.io/process-document/).
 ## Introduction
 
 The slice notation provides an ergonomic alternative to the various
-slice methods present on Array.prototype, String.prototype, etc.
+slice methods present on Array.prototype, TypedArray.prototype, etc.
 
 ```js
 const arr = ['a', 'b', 'c', 'd'];
@@ -17,38 +17,11 @@ arr[1:3];
 
 arr.slice(1, 3);
 // → ['b', 'c']
-
-const str = 'hello world';
-
-str[6:];
-// → 'world'
-
-str.slice(6);
-// → 'world'
 ```
 
-This notation can be used for slice operations on primitives like
-String and any object that provides indexed access using `[[Get]]`
+This notation can be used for slice operations on primitives
 like Array and TypedArray.
 
-The length used for these operations is the `length` property of the
-object.
-
-```js
-const obj = { 0: 'a', 1: 'b', 2: 'c', 3: 'd', length: 4 };
-obj[1:3];
-// → ['b', 'c']
-```
-
-The slice notation extends the slice operations by accepting an
-optional step argument. The step argument is set to 1 if not
-provided.
-
-```js
-const arr = ['a', 'b', 'c', 'd'];
-arr[1:4:2];
-// → ['b', 'd']
-```
 
 ## Motivation
 
@@ -91,32 +64,6 @@ explicit.
 The syntax is also much shorter and more ergonomic than a function
 call.
 
-The step argument is useful for patterns like creating a slice with
-every other element in an array or for reversing an array.
-
-```js
-const arr = ['a', 'b', 'c', 'd'];
-arr[1:4:2];
-// → ['b', 'd']
-
-arr[::-1];
-// → ['d', 'c', 'b', 'a']
-```
-
-The step argument also makes it really easy to work with matrices.
-
-```js
-const matrix = [ 1, 2, 3,
-                 4, 5, 6,
-                 7, 8, 9 ];
-getColumn = col => matrix[col::3];
-```
-
-This is used a lot in scientific computing projects in other
-programming languages. For example:
-* [Tensorflow](https://www.tensorflow.org/api_docs/python/tf/strided_slice)
-* [Numpy](https://docs.scipy.org/doc/numpy-dev/user/quickstart.html#indexing-slicing-and-iterating)
-
 ## Examples
 
 In the following text, 'length of the object' refers to the `length`
@@ -124,7 +71,7 @@ property of the object.
 
 ### Default values
 
-The lower bound, upper bound and the step argument are all optional.
+The lower bound and upper bound are optional.
 
 The default value for the lower bound is 0.
 
@@ -140,26 +87,8 @@ The default value for the upper bound is the length of the object.
 
 ```js
 const arr = ['a', 'b', 'c', 'd'];
-arr[1::1];
-// → ['b', 'c', 'd']
-```
-
-The default value for the step argument is 1.
-
-```js
-const arr = ['a', 'b', 'c', 'd'];
-
 arr[1:];
 // → ['b', 'c', 'd']
-
-arr[:3];
-// → ['a', 'b', 'c']
-
-arr[1::2];
-// → ['b', 'd']
-
-arr[:3:2];
-// → ['a', 'c']
 ```
 
 Omitting all lower bound and upper bound value, produces a new copy of the object.
@@ -167,9 +96,6 @@ Omitting all lower bound and upper bound value, produces a new copy of the objec
 const arr = ['a', 'b', 'c', 'd'];
 
 arr[:];
-// → ['a', 'b', 'c', 'd']
-
-arr[::];
 // → ['a', 'b', 'c', 'd']
 ```
 
@@ -221,16 +147,6 @@ arr[:-10];
 
 These semantics exactly match the behavior of existing slice
 operations.
-
-If the step argument is negative, then the object is traversed in
-reverse.
-
-```js
-const arr = ['a', 'b', 'c', 'd'];
-
-arr[::-1];
-// → ['d', 'c', 'b', 'a']
-```
 
 ### Out of bounds indices
 
@@ -360,9 +276,7 @@ s[1, 3]
 
 ### Why pick the Python syntax over the Ruby/CoffeeScript syntax?
 
-The Python syntax allows us to provide an optional step argument.
-
-Also, the Python syntax which excludes the upper bound index is
+The Python syntax which excludes the upper bound index is
 similar to the existing slice methods in JavaScript.
 
 We could use exclusive Range operator (`...`) from CoffeeScript, but
@@ -407,15 +321,12 @@ numbers[2..4] = [7, 8]
 // → [1, 2, 7, 8]
 ```
 
-This doesn't work with Strings as they are immutable, but could be
-made to work with any object using a `[Set]]` operation.
-
 This feature is currently omitted to limit the scope of the proposal,
 but can be incorporated in a follow on proposal.
 
-### Doesn't the bind operator have similar syntax?
+### Why doesn't this include a step argument like Python does?
 
-Unfortunately, yes. The ambiguity arises from this production:
+The step argument makes the slice notation ambiguous with the bind operator.
 
 ```js
 const x = [2];
@@ -446,20 +357,15 @@ be a step away from how methods work in JavaScript. To make this
 syntax work well within the JavaScript model, such a `view` data
 structure is not included in this proposal.
 
-### What happens when you slice a String that contains multi-point characters?
-
-The slice notation maintains the behavior of the existing
-`String.prototype.slice` method.
-
-### Should we ban slice notation on strings?
+### Should slice notation work on strings?
 
 The `String.prototype.slice` method doesn't work well with unicode
 characters. [This blog
 post](https://mathiasbynens.be/notes/javascript-unicode) by Mathias
 Bynens, explains the problem.
 
-Given that the existing method doesn't work well, banning the slice
-notation for strings _might_ be a good idea to prevent more footguns.
+Given that the existing method doesn't work well, this proposal
+does not add `@@slice` to `String.prototype`.
 
 ### How about combining this with `+` for append?
 
@@ -477,16 +383,14 @@ may be a better fit for this.
 
 ### Can you create a Range object using this syntax?
 
-Languages like Ruby, evaluate their slice (well, range) syntax to
-create a Range object.
+The slice notation only provides an ergonomic syntax for performing a slice
+operation. 
 
-```ruby
-range = 1..4
-// → 1..4
-```
+The current slice notation doesn't preclude creating a range primitive in the 
+future.
 
-A similar construct is already possible with the spread operator as
-shown in an example in an above FAQ.
+A new Range primitive is being discussed here:
+https://github.com/tc39/proposal-Number.range/issues/22
 
 ### Isn't it confusing that this isn't doing property lookup?
 
@@ -539,9 +443,3 @@ Depending on context `a:b`, can mean:
 Is it a lot of overhead to disambiguate between modes with context?
 Major mainstream programming languages like Python have all these
 modes and are being used as a primary tool for teaching programming.
-
-### Can the upper bound, lower bound or the step argument be an arbitrary Expression?
-
-Currently the proposal (arbitrarily) restricts them to be an
-`IdentifierReference` or `DecimalDigits`.
-
