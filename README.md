@@ -78,7 +78,7 @@ The default value for the lower bound is 0.
 ```js
 const arr = ['a', 'b', 'c', 'd'];
 
-arr[:3:1];
+arr[:3];
 // → ['a', 'b', 'c']
 ```
 
