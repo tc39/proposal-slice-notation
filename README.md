@@ -249,20 +249,20 @@ Ruby seems to have two different ways to get a slice:
 * Using a Range:
 
 ```ruby
-arr = [1, 2, 3, 4];
-arr[1..3];
-// → [2, 3, 4]
+arr = [1, 2, 3, 4]
+arr[0..2]
+# → [1, 2, 3]
 ```
 
-This is similar to CoffeeScript. The `1..3` produces a Range object
+This is similar to CoffeeScript. The `0..2` produces a Range object
 which defines the set of indices to be sliced out.
 
 * Using the comma operator:
 
 ```ruby
-arr = [1, 2, 3, 4];
-arr[1, 3];
-// → [2, 3, 4]
+arr = [1, 2, 3, 4]
+arr[0, 2]
+# → [1, 2]
 ```
 
 The difference here is that the second argument is actually the length
